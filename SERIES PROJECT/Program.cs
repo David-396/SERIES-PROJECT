@@ -26,10 +26,10 @@ namespace SERIES_PROJECT
             Console.WriteLine("you didn't entered the series. please enter a series of numbers");
         }
 
-        static int[] GetTheSeriesAgain() 
+        static string GetTheSeriesAgain() 
         {
-            
-
+            string input_series = Console.ReadLine();
+            return input_series;
         }
 
         static bool ValidationOfTheSeries(string[] stringLst)
@@ -42,7 +42,7 @@ namespace SERIES_PROJECT
             Console.WriteLine("the series values / format is invalid");
         }
 
-        static string[] ConvertTheSeriesIntoArray(string inputSeries)
+        static string[] ConvertCharToInt(string inputChar)
         {
 
         }
