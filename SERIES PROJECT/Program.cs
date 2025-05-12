@@ -28,31 +28,38 @@ namespace SERIES_PROJECT
 
         static string GetTheSeriesAgain() 
         {
+            PrintTheFormatOfTheSeries();
             string input_series = Console.ReadLine();
             return input_series;
         }
 
+
         static bool ValidationOfTheSeries(string[] stringLst)
         {
-
-        }
-
-        static void PrintWrongSeries()
-        {
-            Console.WriteLine("the series values / format is invalid");
+            
         }
 
         static string[] ConvertCharToInt(string inputChar)
         {
+            
+        }
 
+        static string[] ConvertStringToArray(string input)
+        {
+            string[] stringLst = input.Split(' ');
+            return stringLst;
         }
 
         static int[] ConvertStringArrayToIntArray(string[] stringLst)
         {
 
         }
-        
 
+
+        static void PrintWrongSeries()
+        {
+            Console.WriteLine("the series values / format is invalid");
+        }
 
 
 
