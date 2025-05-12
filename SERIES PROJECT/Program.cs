@@ -12,8 +12,14 @@ namespace SERIES_PROJECT
     internal class Program
     {
 
-        static int[] numbersList = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
-        static int[] series;
+        static double[] series;
+        static bool IfGetTheSeriesAgain = ValidateSeries();
+
+
+        static void PrintEnterSeriesAgain()
+        {
+            Console.WriteLine("you didn't entered the series. please enter a series of numbers");
+        }
 
 
         static void PrintTheFormatOfTheSeries()
@@ -21,11 +27,7 @@ namespace SERIES_PROJECT
             Console.WriteLine("enter the series in the format : [num] [num] ...");
         }
 
-        static void PrintEnterSeriesAgain()
-        {
-            Console.WriteLine("you didn't entered the series. please enter a series of numbers");
-        }
-
+        
         static string GetTheSeriesAgain() 
         {
             PrintTheFormatOfTheSeries();
@@ -34,26 +36,53 @@ namespace SERIES_PROJECT
         }
 
 
-        static bool ValidationOfTheSeries(string[] stringLst)
-        {
-            
-        }
-
-        static string[] ConvertCharToInt(string inputChar)
-        {
-            
-        }
-
         static string[] ConvertStringToArray(string input)
         {
             string[] stringLst = input.Split(' ');
             return stringLst;
         }
 
-        static int[] ConvertStringArrayToIntArray(string[] stringLst)
-        {
 
+        static double ConvertCharToDouble(string inputChar)
+        {
+            try
+            {
+                double num = Convert.ToDouble(inputChar);
+                return num;
+            }
+            catch (FormatException)
+            {
+                return -1;
+            }
         }
+        
+
+        static void ConvertStringArrayToDoubleArray(string[] stringLst)
+        {
+                double[] doubleList = new double[stringLst.Length];
+                int current_index = 0;
+                double num;
+
+                foreach (string str in stringLst)
+                {
+                    num = ConvertCharToDouble(str);
+                    if (num >= 0)
+                    {
+                        doubleList[current_index] = num;
+                        current_index++;
+                    }
+
+                    else
+                    {
+                        IfGetTheSeriesAgain = true;
+                        series = new double[0];
+                        return;
+                    }
+                }
+                series = doubleList;
+                IfGetTheSeriesAgain = false;
+        }
+
 
 
         static void PrintWrongSeries()
@@ -64,28 +93,76 @@ namespace SERIES_PROJECT
 
 
 
+        static void GET_SERIES_MANAGER()
+        {
+            while (IfGetTheSeriesAgain)
+            {
+                PrintEnterSeriesAgain();
+                PrintTheFormatOfTheSeries();
+                string input_series = GetTheSeriesAgain();
+                string[] stringArray = ConvertStringToArray(input_series);
+                ConvertStringArrayToDoubleArray(stringArray);
+
+                if (IfGetTheSeriesAgain)
+                {
+                    PrintWrongSeries();
+                }
+            }
+        }
+        
+
+        static bool ValidateSeries()
+        {
+            return (series.Length > 3);
+        }
+
+
+
+
+
 
 
         static void PrintTheMenu()
         {
-
+            Console.WriteLine("enter the option: ");
+            Console.WriteLine("     1. Input a Series. (Replace the current series)");
+            Console.WriteLine("     2. Display the series in the order it was entered.");
+            Console.WriteLine("     3. Display the series in the reversed order it was entered.");
+            Console.WriteLine("     4. Display the series in sorted order (from low to high).");
+            Console.WriteLine("     5. Display the Max value of the series.");
+            Console.WriteLine("     6. Display the Min value of the series.");
+            Console.WriteLine("     7. Display the Average of the series.");
+            Console.WriteLine("     8. Display the Number of elements in the series.");
+            Console.WriteLine("     9. Display the Sum of the series.");
+            Console.WriteLine("     10. Exit.");
         }
 
-        static void GetTheOptionFromMenu()
+
+        static string GetTheOptionFromMenu()
         {
-
+            string input_option = Console.ReadLine();
+            return input_option;
         }
 
 
-        static bool ValidationOfTheOption()
+        static bool ValidationOfTheOption(string option)
         {
-
+            string[] options = {"1","2", "3", "4", "5", "6", "7", "8", "9", "10" };
+            return (options.Contains(option));
         }
+
+
 
         static void PrintWrongOption()
         {
 
         }
+
+
+
+
+
+
 
 
         static void ReplaceTheSeriesManager_opt1()
@@ -152,7 +229,8 @@ namespace SERIES_PROJECT
 
         static void Main(string[] args)
         {
-
+            GET_SERIES_MANAGER();
+            
         }
     }
 }
