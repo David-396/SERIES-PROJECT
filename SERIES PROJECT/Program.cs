@@ -22,13 +22,13 @@ namespace SERIES_PROJECT
 
         static void PrintEnterSeries()
         {
-            Console.WriteLine("please enter a series of numbers: ");
+            Console.WriteLine("please enter a series of numbers (at least 3 numbers): ");
         }
 
 
         static void PrintTheFormatOfTheSeries()
         {
-            Console.WriteLine("enter the series in the format : [num],[num],...");
+            Console.WriteLine("enter the series in the format : [num],[num],[num],...");
         }
 
         
@@ -196,7 +196,6 @@ namespace SERIES_PROJECT
                 input_option = GetTheOptionFromMenu();
                 if (ValidationOfTheOption(input_option))
                 {
-                    //Console.Clear();
                     break;
                 }
                 PrintWrongOption();
