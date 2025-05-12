@@ -17,7 +17,7 @@ namespace SERIES_PROJECT
 
         static void PrintEnterSeriesAgain()
         {
-            
+            Console.WriteLine("you didn't entered the series. please enter a series of numbers");
         }
 
         static string[] GetTheSeriesAgain() 
