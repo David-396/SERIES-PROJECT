@@ -15,6 +15,10 @@ namespace SERIES_PROJECT
         static double[] series;
         static bool IfGetTheSeriesAgain = ValidateSeries();
 
+        static bool IfGetNewOption = true;
+        static string input_option = "0";
+
+        static bool IfContinueProgram = true;
 
         static void PrintEnterSeriesAgain()
         {
@@ -92,6 +96,12 @@ namespace SERIES_PROJECT
 
 
 
+        static bool ValidateSeries()
+        {
+            return (series.Length > 3);
+        }
+
+
 
         static void GET_SERIES_MANAGER()
         {
@@ -111,14 +121,10 @@ namespace SERIES_PROJECT
         }
         
 
-        static bool ValidateSeries()
-        {
-            return (series.Length > 3);
-        }
+       
 
 
-
-
+        
 
 
 
@@ -155,7 +161,24 @@ namespace SERIES_PROJECT
 
         static void PrintWrongOption()
         {
+            Console.WriteLine("invalid option please try again");
+        }
 
+
+        static void OPTION_MANAGER()
+        {
+            do
+            {
+                PrintTheMenu();
+                input_option = GetTheOptionFromMenu();
+                if (ValidationOfTheOption(input_option))
+                {
+                    break;
+                }
+                PrintWrongOption();
+                Console.Clear();
+            }
+            while(IfGetNewOption);
         }
 
 
@@ -164,73 +187,238 @@ namespace SERIES_PROJECT
 
 
 
-
+        //1
         static void ReplaceTheSeriesManager_opt1()
         {
-
+            GET_SERIES_MANAGER();
         }
 
-        static void ReplaceSeries_opt1()
+
+
+        //2
+        static void PrintTheSeriesInOriginalOrderManager_opt2(double[] series_arr)
         {
-
+            Console.WriteLine("the original order of the series: ");
+            foreach(double num in series)
+            {
+                Console.Write(num + " ");
+            }
         }
 
 
-        static void PrintTheSeriesInOriginalOrderManager_opt2()
+        //3
+        static void PrintTheSeriesInReverseManager_opt3(double[] series_arr)
         {
-
+            Console.WriteLine("the reversed series: ");
+            PrintAnArray(ReverseArr(series_arr));
         }
 
-        static void PrintTheSeriesInReverseManager_opt3()
+
+        static double[] ReverseArr(double[] arr)
         {
-
+            double[] reversed_arr = new double[series.Length];
+            int reversed_i = 0;
+            for (int i = series.Length; i < 0; i--)
+            {
+                reversed_arr[reversed_i] = series[i];
+                reversed_i++;
+            }
+            return reversed_arr;
         }
 
+        
+
+        //4
         static void PrintTheSeriesInAscendingOrderManager_opt4()
         {
+            Console.WriteLine("the sorted series: ");
+            PrintAnArray(SortArr(series));
         }
 
+
+        static double[] SortArr(double[] series_arr)
+        {
+            double[] sorted_arr = new double[series_arr.Length];
+
+            for(int i=0; i< series_arr.Length; i++)
+            {
+                double current_min = series_arr[i];
+                for (int j = i+1; j < series_arr.Length; j++)
+                {
+                    if(current_min > series_arr[j])
+                    {
+                        current_min = series_arr[j];
+                    }
+                }
+                sorted_arr[i] = current_min;
+            }
+            return sorted_arr;
+        }
+
+        
+        //5
         static void PrintTheMaxNumInSeriesManager_opt5()
         {
-
+            Console.WriteLine($"{FindMaxInArr(series)} is the maximum number in the series");
         }
 
+        static double FindMaxInArr(double[] arr)
+        {
+            double max_num = arr[0];
+            foreach(double num in arr)
+            {
+                if(num > max_num)
+                {
+                    max_num = num;
+                }
+            }
+            return max_num;
+        }
+
+
+
+        //6
         static void PrintTheMinNumInSeriesManager_opt6()
         {
+            Console.WriteLine($"{FindMinInArr(series)} is the minimum number in the series");
         }
 
+        static double FindMinInArr(double[] arr)
+        {
+            double min_num = arr[0];
+            foreach(double num in arr)
+            {
+                if(num < min_num)
+                {
+                    min_num = num;
+                }
+            }
+            return min_num;
+        }
+
+
+        //7
         static void PrintTheAverageOfTheSeriesManager_opt7()
         {
-
+            Console.WriteLine($"{SumArr(series)/series.Length} is the average of the series");
         }
 
+        
+
+
+
+        //8
         static void printTheLengthOfTheSeriesManager_opt8()
         {
-
+            Console.WriteLine($"{series.Length} values you entered in the series");
         }
 
+
+        //9
         static void PrintTheSumOfTheSeriesManager_opt9()
         {
-
+            Console.WriteLine($"{SumArr(series)} is the summary of the series");
         }
 
-        static bool PrintExitMessageManager_opt10()
+
+        //10
+        static void PrintExitMessageManager_opt10()
         {
-
+            Console.WriteLine("BYE!");
+            IfContinueProgram = false;
         }
 
 
 
+        static double SumArr(double[] arr)
+        {
+            double sum = 0;
+            foreach (double num in arr)
+            {
+                sum += num;
+            }
+            return sum;
+        }
+
+
+
+        static void PrintAnArray(double[] arr)
+        {
+            foreach (double num in arr)
+            {
+                Console.Write(num + " ");
+            }
+        }
+
+
+        static void SELECTION_MANAGER()
+        {
+            switch (input_option)
+            {
+                case "1":
+                    ReplaceTheSeriesManager_opt1();
+                    break;
+
+                case "2":
+                    PrintTheSeriesInOriginalOrderManager_opt2(series);
+                    break;
+
+                case "3":
+                    PrintTheSeriesInReverseManager_opt3(series);
+                    break;
+
+                case "4":
+                    PrintTheSeriesInAscendingOrderManager_opt4();
+                    break;
+
+                case "5":
+                    PrintTheMaxNumInSeriesManager_opt5();
+                    break;
+
+                case "6":
+                    PrintTheMinNumInSeriesManager_opt6();
+                    break;
+
+                case "7":
+                    PrintTheAverageOfTheSeriesManager_opt7();
+                    break;
+
+                case "8":
+                    printTheLengthOfTheSeriesManager_opt8();
+                    break;
+
+                case "9":
+                    PrintTheSumOfTheSeriesManager_opt9();
+                    break;
+
+                case "10":
+                    PrintExitMessageManager_opt10();
+                    break;
+
+                default:
+                    PrintWrongOption();
+                    break;
+            }
+        }
 
         static void ProgramManager()
         {
+            while (IfContinueProgram)
+            {
+                //if !(args)
+                //{
+                    GET_SERIES_MANAGER();
+                //}
+                OPTION_MANAGER();
+                SELECTION_MANAGER();
 
+            }
         }
+      
 
         static void Main(string[] args)
         {
-            GET_SERIES_MANAGER();
-            
+            ProgramManager();
         }
     }
 }
