@@ -39,7 +39,7 @@ namespace SERIES_PROJECT
 
         static void PrintWrongSeries()
         {
-
+            Console.WriteLine("the series values / format is invalid");
         }
 
         static string[] ConvertTheSeriesIntoArray(string inputSeries)
