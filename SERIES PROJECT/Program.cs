@@ -12,23 +12,23 @@ namespace SERIES_PROJECT
     internal class Program
     {
 
-        static double[] series;
-        static bool IfGetTheSeriesAgain = ValidateSeries();
+        static double[] series = {-1};
+        static bool IfSeriesInvalid = true;
 
         static bool IfGetNewOption = true;
         static string input_option = "0";
 
         static bool IfContinueProgram = true;
 
-        static void PrintEnterSeriesAgain()
+        static void PrintEnterSeries()
         {
-            Console.WriteLine("you didn't entered the series. please enter a series of numbers");
+            Console.WriteLine("please enter a series of numbers: ");
         }
 
 
         static void PrintTheFormatOfTheSeries()
         {
-            Console.WriteLine("enter the series in the format : [num] [num] ...");
+            Console.WriteLine("enter the series in the format : [num],[num],...");
         }
 
         
@@ -42,8 +42,8 @@ namespace SERIES_PROJECT
 
         static string[] ConvertStringToArray(string input)
         {
-            string[] stringLst = input.Split(' ');
-            return stringLst;
+            string[] stringArr = input.Split(',');
+            return stringArr;
         }
 
 
@@ -78,13 +78,13 @@ namespace SERIES_PROJECT
 
                     else
                     {
-                        IfGetTheSeriesAgain = true;
+                        IfSeriesInvalid = true;
                         series = new double[0];
                         return;
                     }
                 }
                 series = doubleList;
-                IfGetTheSeriesAgain = false;
+                IfSeriesInvalid = false;
         }
 
 
@@ -92,32 +92,53 @@ namespace SERIES_PROJECT
         static void PrintWrongSeries()
         {
             Console.WriteLine("the series values / format is invalid");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
         }
 
 
 
-        static bool ValidateSeries()
+        static bool IfInvalideSeries(double[] arr)
         {
-            return (series.Length > 3);
+            try
+            {
+                if(arr.Length >= 3)
+                {
+                    foreach (double num in arr)
+                    {
+                        if (num < 0)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return true;
+            }
         }
 
 
 
         static void GET_SERIES_MANAGER()
         {
-            while (IfGetTheSeriesAgain)
+            while (IfSeriesInvalid)
             {
-                PrintEnterSeriesAgain();
-                PrintTheFormatOfTheSeries();
+                PrintEnterSeries();
                 string input_series = GetTheSeriesAgain();
                 string[] stringArray = ConvertStringToArray(input_series);
                 ConvertStringArrayToDoubleArray(stringArray);
+                IfSeriesInvalid = IfInvalideSeries(series);
 
-                if (IfGetTheSeriesAgain)
+                if (IfSeriesInvalid)
                 {
                     PrintWrongSeries();
                 }
             }
+            Console.WriteLine();
         }
         
 
@@ -130,6 +151,7 @@ namespace SERIES_PROJECT
 
         static void PrintTheMenu()
         {
+            Console.WriteLine();
             Console.WriteLine("enter the option: ");
             Console.WriteLine("     1. Input a Series. (Replace the current series)");
             Console.WriteLine("     2. Display the series in the order it was entered.");
@@ -141,6 +163,7 @@ namespace SERIES_PROJECT
             Console.WriteLine("     8. Display the Number of elements in the series.");
             Console.WriteLine("     9. Display the Sum of the series.");
             Console.WriteLine("     10. Exit.");
+            Console.WriteLine();
         }
 
 
@@ -173,9 +196,11 @@ namespace SERIES_PROJECT
                 input_option = GetTheOptionFromMenu();
                 if (ValidationOfTheOption(input_option))
                 {
+                    //Console.Clear();
                     break;
                 }
                 PrintWrongOption();
+                System.Threading.Thread.Sleep(1000);
                 Console.Clear();
             }
             while(IfGetNewOption);
@@ -190,6 +215,9 @@ namespace SERIES_PROJECT
         //1
         static void ReplaceTheSeriesManager_opt1()
         {
+            IfSeriesInvalid = true;
+            series = new double[] {-1};
+            Console.Clear();
             GET_SERIES_MANAGER();
         }
 
@@ -203,6 +231,7 @@ namespace SERIES_PROJECT
             {
                 Console.Write(num + " ");
             }
+            Console.WriteLine();
         }
 
 
@@ -218,7 +247,7 @@ namespace SERIES_PROJECT
         {
             double[] reversed_arr = new double[series.Length];
             int reversed_i = 0;
-            for (int i = series.Length; i < 0; i--)
+            for (int i = series.Length -1; i > -1; i--)
             {
                 reversed_arr[reversed_i] = series[i];
                 reversed_i++;
@@ -348,6 +377,7 @@ namespace SERIES_PROJECT
             {
                 Console.Write(num + " ");
             }
+            Console.WriteLine();
         }
 
 
@@ -356,59 +386,71 @@ namespace SERIES_PROJECT
             switch (input_option)
             {
                 case "1":
+                    Console.Clear();
                     ReplaceTheSeriesManager_opt1();
                     break;
 
                 case "2":
+                    Console.Clear();
                     PrintTheSeriesInOriginalOrderManager_opt2(series);
                     break;
 
                 case "3":
+                    Console.Clear();
                     PrintTheSeriesInReverseManager_opt3(series);
                     break;
 
                 case "4":
+                    Console.Clear();
                     PrintTheSeriesInAscendingOrderManager_opt4();
                     break;
 
                 case "5":
+                    Console.Clear();
                     PrintTheMaxNumInSeriesManager_opt5();
                     break;
 
                 case "6":
+                    Console.Clear();
                     PrintTheMinNumInSeriesManager_opt6();
                     break;
 
                 case "7":
+                    Console.Clear();
                     PrintTheAverageOfTheSeriesManager_opt7();
                     break;
 
                 case "8":
+                    Console.Clear();
                     printTheLengthOfTheSeriesManager_opt8();
                     break;
 
                 case "9":
+                    Console.Clear();
                     PrintTheSumOfTheSeriesManager_opt9();
                     break;
 
                 case "10":
+                    Console.Clear();
                     PrintExitMessageManager_opt10();
                     break;
 
                 default:
+                    Console.Clear();
                     PrintWrongOption();
                     break;
             }
         }
 
-        static void ProgramManager()
+        static void ProgramManager(string[] input_args)
         {
             while (IfContinueProgram)
             {
-                //if !(args)
+                //if (input_args == null)
                 //{
-                    GET_SERIES_MANAGER();
+                //    GET_SERIES_MANAGER();
                 //}
+                GET_SERIES_MANAGER();
                 OPTION_MANAGER();
                 SELECTION_MANAGER();
 
@@ -418,7 +460,7 @@ namespace SERIES_PROJECT
 
         static void Main(string[] args)
         {
-            ProgramManager();
+            ProgramManager(args);
         }
     }
 }
