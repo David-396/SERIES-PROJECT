@@ -15,28 +15,20 @@ namespace SERIES_PROJECT
         static int[] numbersList = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
         static int[] series;
 
+
+        static void PrintTheFormatOfTheSeries()
+        {
+            Console.WriteLine("enter the series in the format : [num] [num] ...");
+        }
+
         static void PrintEnterSeriesAgain()
         {
             Console.WriteLine("you didn't entered the series. please enter a series of numbers");
         }
 
-        static string[] GetTheSeriesAgain() 
+        static int[] GetTheSeriesAgain() 
         {
             
-        }
-
-        static int[] ConvertStringArrayToIntArray(string[] stringLst)
-        {
-
-        }
-        
-        static void PrintTheMenu()
-        {
-
-        }
-
-        static void GetTheOptionFromMenu()
-        {
 
         }
 
@@ -49,6 +41,34 @@ namespace SERIES_PROJECT
         {
 
         }
+
+        static string[] ConvertTheSeriesIntoArray(string inputSeries)
+        {
+
+        }
+
+        static int[] ConvertStringArrayToIntArray(string[] stringLst)
+        {
+
+        }
+        
+
+
+
+
+
+
+
+        static void PrintTheMenu()
+        {
+
+        }
+
+        static void GetTheOptionFromMenu()
+        {
+
+        }
+
 
         static bool ValidationOfTheOption()
         {
