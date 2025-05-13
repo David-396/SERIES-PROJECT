@@ -11,29 +11,46 @@ namespace SERIES_PROJECT
 
     internal class Program
     {
+        //the series of numbers if the user entered a series as a command line argument
+        static string[] input_args;
 
+        //the series of numbers
         static double[] series = {-1};
+        //if the series is valid or not
         static bool IfSeriesInvalid = true;
 
+
+        //if the user need to enter a new option or not
         static bool IfGetNewOption = true;
+        //what option the user chose
         static string input_option = "0";
 
+
+        //if the user want to continue the program or not
         static bool IfContinueProgram = true;
+
+
 
         static void PrintEnterSeries()
         {
+            //function to print the enter series message
+
             Console.WriteLine("please enter a series of numbers (at least 3 numbers): ");
         }
 
 
         static void PrintTheFormatOfTheSeries()
         {
+            //function to print the format of the series
+
             Console.WriteLine("enter the series in the format : [num],[num],[num],...");
         }
 
         
         static string GetTheSeriesAgain() 
         {
+            //function to get the series again from the user
+
             PrintTheFormatOfTheSeries();
             string input_series = Console.ReadLine();
             return input_series;
@@ -42,6 +59,8 @@ namespace SERIES_PROJECT
 
         static string[] ConvertStringToArray(string input)
         {
+            //function to convert the string to array of strings
+
             string[] stringArr = input.Split(',');
             return stringArr;
         }
@@ -49,6 +68,8 @@ namespace SERIES_PROJECT
 
         static double ConvertCharToDouble(string inputChar)
         {
+            //function to convert a string to double
+
             try
             {
                 double num = Convert.ToDouble(inputChar);
@@ -63,6 +84,8 @@ namespace SERIES_PROJECT
 
         static void ConvertStringArrayToDoubleArray(string[] stringLst)
         {
+                //function to convert the string array to double array
+
                 double[] doubleList = new double[stringLst.Length];
                 int current_index = 0;
                 double num;
@@ -91,7 +114,9 @@ namespace SERIES_PROJECT
 
         static void PrintWrongSeries()
         {
-            Console.WriteLine("the series values / format is invalid");
+            //function to print the wrong series message
+
+            Console.WriteLine("the values/format/series-length you entered is invalid ");
             System.Threading.Thread.Sleep(1000);
             Console.Clear();
         }
@@ -100,6 +125,8 @@ namespace SERIES_PROJECT
 
         static bool IfInvalideSeries(double[] arr)
         {
+            //function to check if the series is valid
+
             try
             {
                 if(arr.Length >= 3)
@@ -123,26 +150,44 @@ namespace SERIES_PROJECT
 
 
 
-        static void GET_SERIES_MANAGER()
+        static void GET_SERIES_MANAGER(string[] input_args)
         {
+            //function to manage the series input
+            // while the series is invalid the user need to enter a new series
+
             while (IfSeriesInvalid)
             {
-                PrintEnterSeries();
-                string input_series = GetTheSeriesAgain();
+                string input_series = string.Empty;
+                if (input_args.Length == 0)     //if the user didn't enter a series as a command line argument - he need to enter now
+                {
+                    PrintEnterSeries();
+                    input_series = GetTheSeriesAgain();
+                }
+                else
+                {
+                    input_series = input_args[0];       //if the user entered a series as a command line argument - we take it
+                }
+
                 string[] stringArray = ConvertStringToArray(input_series);
                 ConvertStringArrayToDoubleArray(stringArray);
                 IfSeriesInvalid = IfInvalideSeries(series);
 
-                if (IfSeriesInvalid)
+
+                if (IfSeriesInvalid)        //if continue the loop - print error and reset the command line args so the user
                 {
                     PrintWrongSeries();
+                    input_args = new string[0];
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("the series: ");
+                    PrintAnArray(series);
+                    Console.WriteLine();
                 }
             }
-            Console.WriteLine();
         }
         
-
-       
 
 
         
@@ -151,6 +196,8 @@ namespace SERIES_PROJECT
 
         static void PrintTheMenu()
         {
+            //function to print the menu
+
             Console.WriteLine();
             Console.WriteLine("enter the option: ");
             Console.WriteLine("     1. Input a Series. (Replace the current series)");
@@ -169,6 +216,8 @@ namespace SERIES_PROJECT
 
         static string GetTheOptionFromMenu()
         {
+            //function to read the option from the menu
+
             string input_option = Console.ReadLine();
             return input_option;
         }
@@ -176,6 +225,8 @@ namespace SERIES_PROJECT
 
         static bool ValidationOfTheOption(string option)
         {
+            //function to validate the option input
+
             string[] options = {"1","2", "3", "4", "5", "6", "7", "8", "9", "10" };
             return (options.Contains(option));
         }
@@ -184,19 +235,25 @@ namespace SERIES_PROJECT
 
         static void PrintWrongOption()
         {
+            //function to print the wrong option message
+
             Console.WriteLine("invalid option please try again");
         }
 
 
         static void OPTION_MANAGER()
         {
+            //function to manage the option input
+            // while the option input not valid the user need to enter a new option
+
             do
             {
                 PrintTheMenu();
                 input_option = GetTheOptionFromMenu();
                 if (ValidationOfTheOption(input_option))
                 {
-                    break;
+                    IfGetNewOption = false;
+                    return;
                 }
                 PrintWrongOption();
                 System.Threading.Thread.Sleep(1000);
@@ -214,10 +271,12 @@ namespace SERIES_PROJECT
         //1
         static void ReplaceTheSeriesManager_opt1()
         {
+            //function to replace the series
+
             IfSeriesInvalid = true;
             series = new double[] {-1};
             Console.Clear();
-            GET_SERIES_MANAGER();
+            GET_SERIES_MANAGER(new string[0]);
         }
 
 
@@ -225,6 +284,8 @@ namespace SERIES_PROJECT
         //2
         static void PrintTheSeriesInOriginalOrderManager_opt2(double[] series_arr)
         {
+            //function to print the series in original order
+
             Console.WriteLine("the original order of the series: ");
             foreach(double num in series)
             {
@@ -237,6 +298,8 @@ namespace SERIES_PROJECT
         //3
         static void PrintTheSeriesInReverseManager_opt3(double[] series_arr)
         {
+            //function to print the series in reverse order
+
             Console.WriteLine("the reversed series: ");
             PrintAnArray(ReverseArr(series_arr));
         }
@@ -244,6 +307,8 @@ namespace SERIES_PROJECT
 
         static double[] ReverseArr(double[] arr)
         {
+            //function to reverse the array
+
             double[] reversed_arr = new double[series.Length];
             int reversed_i = 0;
             for (int i = series.Length -1; i > -1; i--)
@@ -259,6 +324,8 @@ namespace SERIES_PROJECT
         //4
         static void PrintTheSeriesInAscendingOrderManager_opt4()
         {
+            //function to print the series in ascending order
+
             Console.WriteLine("the sorted series: ");
             PrintAnArray(SortArr(series));
         }
@@ -266,19 +333,23 @@ namespace SERIES_PROJECT
 
         static double[] SortArr(double[] series_arr)
         {
-            double[] sorted_arr = new double[series_arr.Length];
+            // function to sort the array in ascending order
+
+            double[] sorted_arr = (double[])series_arr.Clone();
 
             for(int i=0; i< series_arr.Length; i++)
             {
-                double current_min = series_arr[i];
+                int min_index = i;
                 for (int j = i+1; j < series_arr.Length; j++)
                 {
-                    if(current_min > series_arr[j])
+                    if(series_arr[j] < series_arr[min_index])
                     {
-                        current_min = series_arr[j];
+                        min_index = j;
                     }
                 }
-                sorted_arr[i] = current_min;
+                double temp = sorted_arr[i];
+                sorted_arr[i] = sorted_arr[min_index];
+                sorted_arr[min_index] = temp;
             }
             return sorted_arr;
         }
@@ -287,6 +358,8 @@ namespace SERIES_PROJECT
         //5
         static void PrintTheMaxNumInSeriesManager_opt5()
         {
+            //function to print the maximum number in the series
+
             Console.WriteLine($"{FindMaxInArr(series)} is the maximum number in the series");
         }
 
@@ -308,6 +381,8 @@ namespace SERIES_PROJECT
         //6
         static void PrintTheMinNumInSeriesManager_opt6()
         {
+            //function to print the minimum number in the series
+
             Console.WriteLine($"{FindMinInArr(series)} is the minimum number in the series");
         }
 
@@ -328,6 +403,8 @@ namespace SERIES_PROJECT
         //7
         static void PrintTheAverageOfTheSeriesManager_opt7()
         {
+            //function to print the average of the series
+
             Console.WriteLine($"{SumArr(series)/series.Length} is the average of the series");
         }
 
@@ -338,6 +415,8 @@ namespace SERIES_PROJECT
         //8
         static void printTheLengthOfTheSeriesManager_opt8()
         {
+            //function to print the length of the series
+
             Console.WriteLine($"{series.Length} values you entered in the series");
         }
 
@@ -352,6 +431,7 @@ namespace SERIES_PROJECT
         //10
         static void PrintExitMessageManager_opt10()
         {
+            //function to print and exit message
             Console.WriteLine("BYE!");
             IfContinueProgram = false;
         }
@@ -360,6 +440,7 @@ namespace SERIES_PROJECT
 
         static double SumArr(double[] arr)
         {
+            //function to calculate the sum of the series
             double sum = 0;
             foreach (double num in arr)
             {
@@ -372,6 +453,9 @@ namespace SERIES_PROJECT
 
         static void PrintAnArray(double[] arr)
         {
+            //function to print any double array
+
+            Console.WriteLine();
             foreach (double num in arr)
             {
                 Console.Write(num + " ");
@@ -382,6 +466,8 @@ namespace SERIES_PROJECT
 
         static void SELECTION_MANAGER()
         {
+            //function to manage the selection of the option
+            
             switch (input_option)
             {
                 case "1":
@@ -445,11 +531,9 @@ namespace SERIES_PROJECT
         {
             while (IfContinueProgram)
             {
-                //if (input_args == null)
-                //{
-                //    GET_SERIES_MANAGER();
-                //}
-                GET_SERIES_MANAGER();
+                //function to manage the program
+
+                GET_SERIES_MANAGER(input_args);
                 OPTION_MANAGER();
                 SELECTION_MANAGER();
 
@@ -459,6 +543,9 @@ namespace SERIES_PROJECT
 
         static void Main(string[] args)
         {
+            //Main function to start the program
+
+            input_args = args;
             ProgramManager(args);
         }
     }
